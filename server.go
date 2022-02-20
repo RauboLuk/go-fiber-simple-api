@@ -1,13 +1,23 @@
 package main
 
-import "fmt"
-import "github.com/gofiber/fiber/v2"
+import (
+	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html"
+) 
 
 func main() {
-  app := fiber.New()
+	engine := html.New("./views", ".html")
+
+
+  app := fiber.New(fiber.Config{
+		Views: engine,
+  })
 
   app.Get("/", func(c *fiber.Ctx) error {
-    return c.SendString("Hello, World!")
+    return c.Render("index", fiber.Map{
+			"Title": "Hello, World!",
+	  })
   })
 
 	app.Get("params/optional/:param", func(c *fiber.Ctx) error {
@@ -26,6 +36,10 @@ func main() {
 
 	app.Get("/wildcard/*", func(c *fiber.Ctx) error {
 		return c.SendString("Wildcard: " + c.Params("*"))
+	})
+
+	app.Get("/*", func(c *fiber.Ctx) error {
+		return fiber.NewError(400, "Not found")
 	})
 
   app.Listen(":3000")
