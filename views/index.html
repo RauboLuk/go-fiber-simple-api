@@ -7,8 +7,14 @@
     <title>Welcome</title>
   </head>
   <body>
-    <main><h1>Go fiber test</h1>
-    <p>{{.Title}}</p>
+    <main>
+      <h1>Go fiber test</h1>
+      <p>{{.Title}}</p>
+      {{range .Tasks}}
+      <div class="item">
+        <h3 class="name">{{.}}</h3>
+      </div>
+      {{end}}
     </main>
   </body>
 </html>

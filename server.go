@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html"
-) 
+)
 
 func main() {
 	engine := html.New("./views", ".html")
+	tasks := []string{"Example task"}
 
 
   app := fiber.New(fiber.Config{
@@ -17,6 +18,7 @@ func main() {
   app.Get("/", func(c *fiber.Ctx) error {
     return c.Render("index", fiber.Map{
 			"Title": "Hello, World!",
+			"Tasks": tasks,
 	  })
   })
 
