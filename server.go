@@ -6,9 +6,23 @@ import (
 	"github.com/gofiber/template/html"
 )
 
+type Task struct {
+	Name  string
+}
+
+type ViewData struct {
+	Title  string
+	Tasks []Task
+}
+
 func main() {
 	engine := html.New("./views", ".html")
-	tasks := []string{"Example task"}
+	tasks := []Task{{Name: "Example task"}}
+
+	viewData := ViewData{
+		Title: "Hello, World!",
+		Tasks: tasks,
+	}
 
 
   app := fiber.New(fiber.Config{
@@ -16,10 +30,7 @@ func main() {
   })
 
   app.Get("/", func(c *fiber.Ctx) error {
-    return c.Render("index", fiber.Map{
-			"Title": "Hello, World!",
-			"Tasks": tasks,
-	  })
+    return c.Render("index", viewData)
   })
 
 	app.Get("params/optional/:param", func(c *fiber.Ctx) error {
