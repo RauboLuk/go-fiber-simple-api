@@ -19,18 +19,17 @@ func main() {
 	engine := html.New("./views", ".html")
 	tasks := []Task{{Name: "Example task"}}
 
-	viewData := ViewData{
-		Title: "Hello, World!",
-		Tasks: tasks,
-	}
-
-
   app := fiber.New(fiber.Config{
 		Views: engine,
   })
 
   app.Get("/", func(c *fiber.Ctx) error {
-    return c.Render("index", viewData)
+		newTasks := append([]Task(tasks), Task{Name: "Appended task"})
+		view := ViewData{
+			Title: "Hello, World!",
+			Tasks: newTasks,
+		}
+    return c.Render("index", view)
   })
 
 	app.Get("params/optional/:param", func(c *fiber.Ctx) error {
